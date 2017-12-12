@@ -1,0 +1,11 @@
+name = "Islandora scrapbook"
+description = "Work in progress: Newspaper sequenced a la Book instead of by dateIssued"
+dependencies[] = islandora
+dependencies[] = islandora_paged_content
+package = Islandora Solution Packs
+version = 7.x-dev
+core = 7.x
+configure = admin/islandora/solution_pack_config/scrapbook
+stylesheets[all][] = css/islandora_scrapbook.base.css
+stylesheets[all][] = css/islandora_scrapbook.theme.css
+files[] = tests/islandora_scrapbook_derivatives_ingest_purge.test

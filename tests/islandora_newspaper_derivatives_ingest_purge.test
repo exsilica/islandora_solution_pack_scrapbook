@@ -1,0 +1,148 @@
+<?php
+
+/**
+ * @file
+ * Attempts to ingest a scrapbook issue and page into a random collection.
+ */
+
+class IslandorascrapbookPageIngestTestCase extends IslandoraCollectionWebTestCase {
+
+  /**
+   * Get test information.
+   *
+   * @see IslandoraWebTestCase::getInfo()
+   */
+  public static function getInfo() {
+    return array(
+      'name' => 'scrapbook and Page Ingest/Purge',
+      'description' => 'Ingests and purges an issue from a randomly generated scrapbook collection, and a page from that issue.',
+      'group' => 'Islandora scrapbook',
+    );
+  }
+
+  /**
+   * Set up the test environment.
+   *
+   * @see IslandoraWebTestCase::setUp()
+   */
+  public function setUp() {
+    $this->imagemagick_convert = variable_get('imagemagick_convert', '/usr/bin/convert');
+    $this->islandora_ocr_tesseract = variable_get('islandora_ocr_tesseract', '/usr/local/bin/tesseract');
+    parent::setUp(array(
+      'islandora_basic_collection',
+      'islandora_scrapbook',
+      'islandora_paged_content',
+      'islandora_ocr',
+      'imagemagick',
+      'islandora_large_image',
+      // TODO: scrapbook currently doesn't work without XML forms; you can
+      // ingest a scrapbook, but you can't ingest an issue or a page. This
+      // needs to be fixed so we can take out these last five modules.
+      'php_lib',
+      'xml_form_api',
+      'xml_form_builder',
+      'xml_schema_api',
+      'objective_forms',
+    ));
+  }
+
+  /**
+   * Creates an administrative user and attempts to ingest an issue and page.
+   */
+  public function testIngestPurgescrapbookPage() {
+
+    // Sets up the testing space.
+    $user = $this->drupalCreateUser(array_keys(module_invoke_all('permission')));
+    $this->drupalLogin($user);
+    $label = $this->randomName(16);
+    $suffix = $this->randomName(16);
+    $collection_pid = 'islandora:' . $suffix;
+    $this->createTestCollection($label, 'islandora:scrapbookCModel', $collection_pid);
+    variable_set('image_toolkit', 'imagemagick');
+    variable_set('imagemagick_convert', $this->imagemagick_convert);
+    variable_set('islandora_scrapbook_ingest_derivatives', array(
+      'pdf' => 'pdf',
+      'image' => 'image',
+      'ocr' => 'ocr',
+    ));
+    variable_set('islandora_ocr_tesseract', $this->islandora_ocr_tesseract);
+    variable_set('islandora_ocr_tesseract_enabled_languages', array(
+      'eng' => 'eng',
+    ));
+
+    // Attempts to create the scrapbook.
+    $path = 'islandora/object/' . $collection_pid . '/manage/overview/ingest';
+    $scrapbook_title = $this->randomName(16);
+    $edit = array(
+      'titleInfo[title]' => $scrapbook_title,
+    );
+    $this->drupalPost($path, $edit, t('Ingest'));
+    $this->assertText($scrapbook_title, t('scrapbook was created'), 'Islandora');
+
+    // Checks for scrapbook datastream creation.
+    $scrapbook_pid = $this->getObjectFromPath($this->url);
+    $datastreams = array(
+      'RELS-EXT',
+      'DC',
+      'MODS',
+    );
+    $this->assertDatastreams($scrapbook_pid, $datastreams);
+
+    // Attempts to create a scrapbook issue.
+    $path = 'islandora/object/' . $scrapbook_pid . '/manage/overview/issue_ingest';
+    $issue_title = $this->randomName(16);
+    $edit = array(
+      'titleInfo[title]' => $issue_title,
+      // 'originInfo[dateIssued]' => '2002-02-20',
+    );
+
+    $this->drupalPost($path, $edit, t('Ingest'));
+    $this->assertText($issue_title, /*'Issue was created', */'Islandora');
+
+    // Checks for issue datastream creation.
+    $issue_pid = $this->getObjectFromPath($this->url);
+    $datastreams = array(
+      'RELS-EXT',
+      'MODS',
+      'DC',
+    );
+
+    // Attempts to add a page to the issue.
+    $path = 'islandora/object/' . $issue_pid . '/manage/overview/scrapbook_page_ingest';
+    $file = drupal_get_path('module', 'islandora_scrapbook') . '/tests/fixtures/test.tiff';
+    $edit = array(
+      'files[file]' => $file,
+      'language' => 'eng',
+    );
+    $this->drupalPost($path, $edit, t('Ingest'));
+    $this->assertText('test.tiff', /*'Page was created', */'Islandora');
+
+    // Checks for page datastream creation.
+    $page_pid = $this->getObjectFromPath($this->url);
+    $datastreams = array(
+      'RELS-EXT',
+      'OBJ',
+      'DC',
+      'OCR',
+      'HOCR',
+      'JP2',
+      'PDF',
+      'TN',
+      'JPG',
+    );
+    $this->assertDatastreams($page_pid, $datastreams);
+
+    // Attempts to validate datastreams where possible.
+    $datastreams = array(
+      array('OBJ', 'tiff'),
+      array('OCR', 'text', array('HAPPY DOG', 3)),
+      array('HOCR', 'text', array('HAPPY', 6)),
+      array('HOCR', 'text', array('CAT', 3)),
+      array('JP2', 'jp2'),
+      array('PDF', 'pdf'),
+      array('TN', 'image'),
+      array('JPG', 'image'),
+    );
+    $this->validateDatastreams($page_pid, $datastreams);
+  }
+}
