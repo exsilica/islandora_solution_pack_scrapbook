@@ -19,6 +19,7 @@ The primary difference is the removal of the [dateIssued](http://books.xmlschema
 * Determine final naming conventions to avoid conflict with Islandora Paged Content object names
 * Finalize documentation according to Islandora module recommendations
 * Adapt theming towards book-like navigation from visual perspective
+* Determine whether Islandora community beyond Vassar has interest; open issue etc.
 
 Newspaper documentation below for underlying structural reference.
 
