@@ -1,10 +1,10 @@
-# Scrapbook Solution Pack
+# Scrapbook
 
 **Work in Progress: Not for use in production.**
 
 ## Introduction
 
-This module builds upon [Newspaper](https://github.com/Islandora/islandora_solution_pack_newspaper) structure mapping to display paged content with 3+ nested layers.  
+Tweaking the Islandora [Newspaper](https://github.com/Islandora/islandora_solution_pack_newspaper) solution pack to display paged content with 3+ nested layers.  
 The primary difference is the removal of the [dateIssued](http://books.xmlschemata.org/relaxng/ch19-77049.html) parameter in the `issue` object, and further development of the [isSequenceOf](http://books.xmlschemata.org/relaxng/ch19-77247.html) parameter in its place for sequencing and navigation.    
 
 **Current Status**
@@ -19,7 +19,11 @@ The primary difference is the removal of the [dateIssued](http://books.xmlschema
 * Determine final naming conventions to avoid conflict with Islandora Paged Content object names
 * Finalize documentation according to Islandora module recommendations
 * Adapt theming towards book-like navigation from visual perspective
-* Determine whether Islandora community beyond Vassar has interest; open issue etc.
+
+**Why didn't you open an issue?**
+
+At present this project appears to be an individualized customization of the Newspaper that does not warrant an entirely new " Islandora Scrapbook Solution Pack."  
+It is being developed from the "making a solution pack" point of view only to follow best practices and allow for future expansion, if desired.
 
 Newspaper documentation below for underlying structural reference.
 
