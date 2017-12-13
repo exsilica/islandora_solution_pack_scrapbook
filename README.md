@@ -1,8 +1,26 @@
-# Newspaper Solution Pack [![Build Status](https://travis-ci.org/Islandora/islandora_solution_pack_newspaper.png?branch=7.x)](https://travis-ci.org/Islandora/islandora_solution_pack_newspaper)
+# Scrapbook Solution Pack
+
+** Work in Progress: Not for use in production.**
 
 ## Introduction
 
-This module packages functions for ingesting and displaying newspaper content.
+This module builds upon [Newspaper](https://github.com/Islandora/islandora_solution_pack_newspaper) structure mapping to display paged content with 3+ nested layers.  
+The primary difference is the removal of the [dateIssued](http://books.xmlschemata.org/relaxng/ch19-77049.html) parameter in the `issue` object, and further development of the [isSequenceOf](http://books.xmlschemata.org/relaxng/ch19-77247.html) parameter in its place for sequencing and navigation.    
+
+** Current Status**
+
+* Islandora Scrapbook appears as solution pack in repository
+* Ability to create new Scrapbook parent object
+* In process: Iterative code cleanup through object creation process until no expected action breaks the site
+
+** Next Steps**
+
+* Develop sequence rules for `issue` object
+* Determine final naming conventions to avoid conflict with Islandora Paged Content object names
+* Finalize documentation according to Islandora module recommendations
+* Adapt theming towards book-like navigation from visual perspective
+
+Newspaper documentation below for underlying structural reference.
 
 ## Requirements
 
