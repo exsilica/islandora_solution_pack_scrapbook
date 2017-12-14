@@ -47,7 +47,7 @@ before_install:
   - sudo sh $TRAVIS_BUILD_DIR/tests/scripts/adore.sh
   - sudo sh $TRAVIS_BUILD_DIR/tests/scripts/tesseract.sh
   - cd $HOME/drupal-*
-  - ln -s $TRAVIS_BUILD_DIR sites/all/modules/islandora_solution_pack_newspaper
+  - ln -s $TRAVIS_BUILD_DIR sites/all/modules/islandora_solution_pack_scrapbook
   - ln -s $HOME/islandora_paged_content sites/all/modules/islandora_paged_content
   - ln -s $HOME/islandora_solution_pack_collection sites/all/modules/islandora_solution_pack_collection
   - ln -s $HOME/islandora_ocr sites/all/modules/islandora_ocr
@@ -56,14 +56,14 @@ before_install:
   - ln -s $HOME/islandora_xml_forms sites/all/modules/islandora_xml_forms
   - ln -s $HOME/objective_forms sites/all/modules/objective_forms
   - drush dl imagemagick
-  - drush en --user=1 --yes imagemagick islandora_newspaper islandora_paged_content islandora_basic_collection islandora_ocr xml_form_builder islandora_large_image
+  - drush en --user=1 --yes imagemagick islandora_scrapbook islandora_paged_content islandora_basic_collection islandora_ocr xml_form_builder islandora_large_image
   - drush vset islandora_ocr_tesseract `which tesseract`
   - drush vset islandora_book_tesseract `which tesseract`
 script:
-  - ant -buildfile sites/all/modules/islandora_solution_pack_newspaper/build.xml lint
-  - $ISLANDORA_DIR/tests/scripts/line_endings.sh sites/all/modules/islandora_solution_pack_newspaper
-  - drush coder-review --reviews=production,security,style,i18n,potx,sniffer islandora_newspaper
-  - phpcpd --names *.module,*.inc,*.test sites/all/modules/islandora_solution_pack_newspaper
-  - php scripts/run-tests.sh --php `phpenv which php` --url http://localhost:8081 --verbose --class IslandoraNewspaperPageIngestTestCase
+  - ant -buildfile sites/all/modules/islandora_solution_pack_scrapbook/build.xml lint
+  - $ISLANDORA_DIR/tests/scripts/line_endings.sh sites/all/modules/islandora_solution_pack_scrapbook
+  - drush coder-review --reviews=production,security,style,i18n,potx,sniffer islandora_scrapbook
+  - phpcpd --names *.module,*.inc,*.test sites/all/modules/islandora_solution_pack_scrapbook
+  - php scripts/run-tests.sh --php `phpenv which php` --url http://localhost:8081 --verbose --class IslandorascrapbookPageIngestTestCase
 notifications:
   irc: "irc.freenode.org#islandora"
