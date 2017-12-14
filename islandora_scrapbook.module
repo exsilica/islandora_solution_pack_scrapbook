@@ -33,7 +33,7 @@ function islandora_scrapbook_menu() {
   );
   return array(
     'admin/islandora/solution_pack_config/scrapbook' => array(
-      'title' => 'scrapbooks',
+      'title' => 'Scrapbooks',
       'description' => 'Select viewers and configure ingest behavior.',
       'page callback' => 'drupal_get_form',
       'access arguments' => array('administer site configuration'),
@@ -50,7 +50,8 @@ function islandora_scrapbook_menu() {
       'file' => 'includes/admin.form.inc',
       'type' => MENU_DEFAULT_LOCAL_TASK,
     ),
-/*    'admin/islandora/solution_pack_config/scrapbook/missing_dates' => array(
+/**   
+	  'admin/islandora/solution_pack_config/scrapbook/missing_dates' => array(
       'title' => 'Missing dates',
       'description' => 'Issue missing a dateIssued value',
       'page_callback' => 'drupal_get_form',
@@ -58,9 +59,10 @@ function islandora_scrapbook_menu() {
       'page arguments' => array('islandora_scrapbook_empty_issue_date_form', NULL),
       'file' => 'includes/manage_scrapbook.inc',
       'type' => MENU_LOCAL_TASK, 
-    ), */
+    ), 
+    */
     'islandora/object/%islandora_object/manage/scrapbook' => array(
-      'title' => 'scrapbook',
+      'title' => 'Scrapbook',
       'type' => MENU_LOCAL_TASK,
       'page callback' => 'islandora_scrapbook_manage_scrapbook',
       'page arguments' => array(2),
@@ -173,10 +175,10 @@ function islandora_scrapbook_theme($existing, $type, $theme, $path) {
  */
 function islandora_scrapbook_islandora_required_objects(IslandoraTuque $connection) {
   $module_path = drupal_get_path('module', 'islandora_scrapbook');
-  // scrapbook content model.
+  // Scrapbook content model.
   $scrapbook_content_model = $connection->repository->constructObject('islandora:scrapbookCModel');
   $scrapbook_content_model->owner = 'fedoraAdmin';
-  $scrapbook_content_model->label = 'Islandora scrapbook Content Model';
+  $scrapbook_content_model->label = 'Islandora Scrapbook Content Model';
   $scrapbook_content_model->models = 'fedora-system:ContentModel-3.0';
   // DS-COMPOSITE-MODEL datastream.
   $datastream = $scrapbook_content_model->constructDatastream('DS-COMPOSITE-MODEL', 'X');
@@ -188,7 +190,7 @@ function islandora_scrapbook_islandora_required_objects(IslandoraTuque $connecti
   // Issue content model.
   $scrapbook_issue_content_model = $connection->repository->constructObject('islandora:scrapbookIssueCModel');
   $scrapbook_issue_content_model->owner = 'fedoraAdmin';
-  $scrapbook_issue_content_model->label = 'Islandora scrapbook Issue Content Model';
+  $scrapbook_issue_content_model->label = 'Islandora Scrapbook Issue Content Model';
   $scrapbook_issue_content_model->models = 'fedora-system:ContentModel-3.0';
   // DS-COMPOSITE-MODEL datastream.
   $datastream = $scrapbook_issue_content_model->constructDatastream('DS-COMPOSITE-MODEL', 'X');
@@ -200,7 +202,7 @@ function islandora_scrapbook_islandora_required_objects(IslandoraTuque $connecti
   // Page content model.
   $scrapbook_page_content_model = $connection->repository->constructObject('islandora:scrapbookPageCModel');
   $scrapbook_page_content_model->owner = 'fedoraAdmin';
-  $scrapbook_page_content_model->label = 'Islandora scrapbook Page Content Model';
+  $scrapbook_page_content_model->label = 'Islandora Scrapbook Page Content Model';
   $scrapbook_page_content_model->models = 'fedora-system:ContentModel-3.0';
   // DS-COMPOSITE-MODEL datastream.
   $datastream = $scrapbook_page_content_model->constructDatastream('DS-COMPOSITE-MODEL', 'X');
@@ -210,10 +212,10 @@ function islandora_scrapbook_islandora_required_objects(IslandoraTuque $connecti
   $datastream->setContentFromFile("$paged_content_path/xml/islandora_pageCModel_ds_composite_model.xml", FALSE);
   $scrapbook_page_content_model->ingestDatastream($datastream);
 
-  // scrapbook collection.
+  // Scrapbook collection.
   $scrapbook_collection = $connection->repository->constructObject('islandora:scrapbook_collection');
   $scrapbook_collection->owner = 'fedoraAdmin';
-  $scrapbook_collection->label = 'scrapbook Collection';
+  $scrapbook_collection->label = 'Scrapbook Collection';
   $scrapbook_collection->models = 'islandora:collectionCModel';
   $scrapbook_collection->relationships->add(FEDORA_RELS_EXT_URI, 'isMemberOfCollection', 'islandora:root');
   // Collection policy datastream.
@@ -231,7 +233,7 @@ function islandora_scrapbook_islandora_required_objects(IslandoraTuque $connecti
 
   return array(
     'islandora_scrapbook' => array(
-      'title' => 'Islandora scrapbook',
+      'title' => 'Islandora Scrapbook',
       'objects' => array(
         $scrapbook_content_model,
         $scrapbook_issue_content_model,
@@ -248,10 +250,10 @@ function islandora_scrapbook_islandora_required_objects(IslandoraTuque $connecti
 function islandora_scrapbook_xml_form_builder_forms() {
   $module_path = drupal_get_path('module', 'islandora_scrapbook');
   return array(
-    'scrapbook' => array(
+    'Scrapbook' => array(
       'form_file' => "$module_path/xml/forms/islandora_scrapbook_form_mods.xml",
     ),
-    'scrapbook Issue' => array(
+    'Scrapbook Issue' => array(
       'form_file' => "$module_path/xml/forms/islandora_scrapbook_issue_form_mods.xml",
     ),
   );
@@ -264,7 +266,7 @@ function islandora_scrapbook_xml_form_builder_form_associations() {
   return array(
     'islandora_scrapbook_mods_form' => array(
       'content_model' => 'islandora:scrapbookCModel',
-      'form_name' => 'scrapbook',
+      'form_name' => 'Scrapbook',
       'dsid' => 'MODS',
       'title_field' => array('titleInfo', 'title'),
       'transform' => 'mods_to_dc.xsl',
@@ -272,7 +274,7 @@ function islandora_scrapbook_xml_form_builder_form_associations() {
     ),
     'islandora_scrapbook_issue_mods_form' => array(
       'content_model' => 'islandora:scrapbookIssueCModel',
-      'form_name' => 'scrapbook Issue',
+      'form_name' => 'Scrapbook Issue',
       'dsid' => 'MODS',
       'title_field' => array('titleInfo', 'title'),
       'transform' => 'mods_to_dc.xsl',
@@ -358,7 +360,8 @@ function islandora_scrapbook_islandora_scrapbookissuecmodel_mods_islandora_datas
   if ($date_issued) {
     islandora_scrapbook_set_date_issued($object, $date_issued);
   }
-} */
+} 
+*/
 
 /**
  * Implements hook_cmodel_dsid_islandora_datastream_ingested().
@@ -371,7 +374,8 @@ function islandora_scrapbook_islandora_scrapbookissuecmodel_mods_islandora_datas
   if ($date_issued) {
     islandora_scrapbook_set_date_issued($object, $date_issued);
   }
-} */
+} 
+*/
 
 /**
  * Implements hook_CMODEL_PID_islandora_solr_object_result_alter().
@@ -493,7 +497,7 @@ function islandora_scrapbook_form_islandora_object_properties_form_alter(array &
   }
 
   if (in_array('islandora:scrapbookCModel', $object->models)) {
-    $form['delete']['#value'] = t('Delete scrapbook');
+    $form['delete']['#value'] = t('Delete Scrapbook');
   }
 }
 
@@ -541,7 +545,7 @@ function islandora_scrapbook_islandora_delete_issue_form_delete_pages_submit(arr
 }
 
 /**
- * Delete all the issue objects related to the scrapbook object being deleted.
+ * Delete all the issue objects related to the Scrapbook object being deleted.
  *
  * @param array $form
  *   The Drupal form.
@@ -580,10 +584,10 @@ function islandora_scrapbook_issue_pages_menu(AbstractObject $object) {
  * Check whether the Page tab should be shown.
  *
  * @param AbstractObject $object
- *   scrapbook object.
+ *   Scrapbook object.
  *
  * @return bool
- *   Reture true if Page tab should shown.
+ *   Return true if Page tab should shown.
  */
 function islandora_scrapbook_issue_page_access(AbstractObject $object) {
   module_load_include('inc', 'islandora', 'includes/solution_packs');
@@ -629,7 +633,7 @@ EOQ;
     'scrapbook_issues' => array(
       'type' => 'sparql',
       'query' => $issues_query,
-      'description' => t('All scrapbook issues and their pages (existing and new).'),
+      'description' => t('All Scrapbook issues and their pages (existing and new).'),
       'recurse' => TRUE,
     ),
   );

@@ -1,4 +1,4 @@
-name = "Islandora scrapbook"
+name = "Islandora Scrapbook"
 description = "Work in progress: Newspaper sequenced a la Book instead of by dateIssued"
 dependencies[] = islandora
 dependencies[] = islandora_paged_content

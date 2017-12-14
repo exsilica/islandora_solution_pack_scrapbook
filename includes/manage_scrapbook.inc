@@ -11,21 +11,23 @@ require_once dirname(__FILE__) . '/utilities.inc';
  * Displays all the book management forms in a set of vertical tabs.
  *
  * @param AbstractObject $object
- *   The scrapbook object to manage.
+ *   The Scrapbook object to manage.
  *
  * @return array
  *   A renderable array containing all the management forms related to
  *   book objects.
  * Scrapbook update: The empty date form is the only field in the Newspaper manage tab;
- * hopefully this entire section can be discarded without breaking all the things. (20171212 cvm)
+ * hopefully most of this section can be discarded without breaking all the things. (20171212 cvm)
+ * Update 20171214: Things are broken.
  *
 function islandora_scrapbook_manage_scrapbook(AbstractObject $object) {
   drupal_set_title($object->label);
   return drupal_get_form('islandora_scrapbook_empty_issue_date_form', $object);
-} */
+} 
+*/
 
 /**
- * Form to add dates missing from scrapbook issues.
+ * Form to add dates missing from Scrapbook issues.
  *
  * @param array $form
  *   The form object.
@@ -87,7 +89,8 @@ function islandora_scrapbook_empty_issue_date_form(array $form, array &$form_sta
     );
   }
   return $form;
-} */
+} 
+*/
 
 /**
  * Add datepicker to the issue date textfields.
@@ -105,7 +108,8 @@ function islandora_scrapbook_empty_issue_date_datepicker(array $form, array $for
   drupal_add_js("(function ($) { $('.datepicker').datepicker({dateFormat: \"yy-mm-dd\"
 }); })(jQuery);", array('type' => 'inline', 'scope' => 'footer', 'weight' => 5));
   return $form;
-} */
+} 
+*/
 
 /**
  * Implements hook_form_validate().
@@ -139,7 +143,8 @@ function islandora_scrapbook_empty_issue_date_form_validate($form, &$form_state)
   elseif ($updates == 0) {
     drupal_set_message(t("You did not submit any dates."), "error");
   }
-} */
+} 
+*/
 
 /**
  * Implements hook_form_submit().
@@ -174,13 +179,14 @@ function islandora_scrapbook_empty_issue_date_form_submit($form, &$form_state) {
   else {
     drupal_set_message(t("Issue dates saved."));
   }
-} */
+} 
+*/
 
 /**
  * Local menu action, that gets the ingest page form.
  *
  * @param AbstractObject $scrapbook
- *   The scrapbook to ingest into.
+ *   The Scrapbook to ingest into.
  *
  * @return sting
  *   The HTML repersentation of the ingest page form.

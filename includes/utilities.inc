@@ -9,7 +9,7 @@
  * Returns issue object of a given page object.
  *
  * @param object $object
- *   scrapbook page object.
+ *   Scrapbook page object.
  *
  * @return string|bool
  *   Returns the PID of the issue object of which $object is a page of. If
@@ -25,10 +25,10 @@ function islandora_scrapbook_get_issue($object) {
 }
 
 /**
- * Returns the sequence number of a given newsletter page.
+ * Returns the sequence number of a given page.
  *
  * @param object $object
- *   scrapbook page object.
+ *   Scrapbook page object.
  *
  * @return string|bool
  *   Returns the sequence number of a page in an issue. If there is no such
@@ -47,10 +47,10 @@ function islandora_scrapbook_get_current_sequence($object) {
  * Returns the collection object of a given issue object.
  *
  * @param object $object
- *   scrapbook issue object.
+ *   Scrapbook issue object.
  *
  * @return string|bool
- *   Returns the PID of the scrapbook of which $object is a member. If there is
+ *   Returns the PID of the Scrapbook of which $object is a member. If there is
  *   no such membership, returns FALSE.
  */
 function islandora_scrapbook_get_scrapbook($object) {
@@ -63,7 +63,7 @@ function islandora_scrapbook_get_scrapbook($object) {
 }
 
 /**
- * Gets all the issues that the given scrapbook owns.
+ * Gets all the issues that the given Scrapbook owns.
  *
  * The results are ordered by their RELS-EXT dateIssued property.
  * Older to newer.
@@ -114,7 +114,8 @@ EOQ;
   ));
 
   $results = $object->repository->ri->sparqlQuery($query);
-  /* Map the results using a default Datetime for missing issued dates.
+  /** 
+  Map the results using a default Datetime for missing issued dates.
   $map_results = function($o) {
     try {
       @$issued = new DateTime($o['issued']['value']);
@@ -132,7 +133,8 @@ EOQ;
       'sequence' => $o['sequence']['value'],
       'issued' => $issued,
     );
-  }; */
+  }; 
+  */
   $issues = array_map($map_results, $results);
   // Grab the PIDs...
   $get_pid = function($o) {
@@ -219,7 +221,8 @@ function islandora_scrapbook_get_date_issued_from_mods(AbstractDatastream $datas
     }
   }
   return $out;
-} */
+} 
+*/
 
 /**
  * Sets the date issued literal in the objects RELS-EXT.
@@ -232,7 +235,8 @@ function islandora_scrapbook_get_date_issued_from_mods(AbstractDatastream $datas
 function islandora_scrapbook_set_date_issued(AbstractObject $object, DateTime $date) {
   $object->relationships->remove(ISLANDORA_RELS_EXT_URI, 'dateIssued', NULL, TRUE);
   $object->relationships->add(ISLANDORA_RELS_EXT_URI, 'dateIssued', $date->format("Y-m-d"), TRUE);
-} */
+} 
+*/
 
 /**
  * Fetches the date issued from the objects RELS-EXT.
@@ -249,7 +253,8 @@ function islandora_scrapbook_get_date_issued(AbstractObject $object) {
   $results = $object->relationships->get(ISLANDORA_RELS_EXT_URI, 'dateIssued', NULL, TRUE);
   $date = empty($results) ? new DateTime() : new DateTime($results[0]['object']['value']);
   return $date;
-} */
+} 
+*/
 
 /**
  * Fetch the issues of a scrapbook that do not have a date.
@@ -316,7 +321,8 @@ EOQ;
   };
   $issues = array_map($map_results, $results);
   return $issues;
-} */
+} 
+*/
 
 /**
  * Set mods:dateIssued from form.
@@ -358,4 +364,5 @@ function islandora_scrapbook_set_mods_date_issued(AbstractDatastream $datastream
     }
   }
   return $out;
-} */
+} 
+*/
