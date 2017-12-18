@@ -1,3 +1,9 @@
+# Archived
+
+Repo archived instead of deleted for posterity. This use case has been resolved with the [discoverygarden Islandora Serials Solution Pack](https://github.com/discoverygarden/islandora_solution_pack_serial) module.
+
+******
+
 # Scrapbook
 
 **Work in Progress: Not for use in production.**
